@@ -349,7 +349,7 @@ void PathFinderMovementGenerator::BuildPolyPath(const Vector3 &startPos, const V
             // this is probably an error state, but we'll leave it
             // and hopefully recover on the next Update
             // we still need to copy our preffix
-            sLog->outError("%u's Path Build failed: 0 length path", m_sourceUnit->GetGUIDLow());
+            sLog->outError("%u's Path Build failed: 0 length path 1", m_sourceUnit->GetGUIDLow());
         }
 
         sLog->outDebug(LOG_FILTER_MAPS, "++  m_polyLength=%u prefixPolyLength=%u suffixPolyLength=%u \n",m_polyLength, prefixPolyLength, suffixPolyLength);
@@ -381,7 +381,7 @@ void PathFinderMovementGenerator::BuildPolyPath(const Vector3 &startPos, const V
         if (!m_polyLength || dtResult != DT_SUCCESS)
         {
             // only happens if we passed bad data to findPath(), or navmesh is messed up
-            sLog->outError("%u's Path Build failed: 0 length path", m_sourceUnit->GetGUIDLow());
+            sLog->outError("%u's Path Build failed: 0 length path Res: %u", m_sourceUnit->GetGUIDLow(), dtResult);
             BuildShortcut();
             m_type = PATHFIND_NOPATH;
             return;
