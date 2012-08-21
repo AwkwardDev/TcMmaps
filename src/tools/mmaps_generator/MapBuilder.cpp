@@ -817,7 +817,6 @@ namespace MMAP
 
             // now that tile is written to disk, we can unload it
             navMesh->removeTile(tileRef, NULL, NULL);
-            delete navData;
         }
         //while (0);
 
