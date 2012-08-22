@@ -110,8 +110,8 @@ namespace MMAP
         }
 
         // data used later
-        //uint16 holes[16][16];
-        //memset(holes, 0, sizeof(holes));
+        uint16 holes[16][16];
+        memset(holes, 0, sizeof(holes));
         uint8 liquid_type[16][16];
         memset(liquid_type, 0, sizeof(liquid_type));
         G3D::Array<int> ltriangles;
@@ -158,10 +158,13 @@ namespace MMAP
                 fread(V8, sizeof(float), V8_SIZE_SQ, mapFile);
             }
 
-            // hole data
-            //memset(holes, 0, fheader.holesSize);
-            //fseek(mapFile, fheader.holesOffset, SEEK_SET);
-            //fread(holes, fheader.holesSize, 1, mapFile);
+            if (fheader.holesSize != 0)
+            {
+                // hole data
+                memset(holes, 0, fheader.holesSize);
+                fseek(mapFile, fheader.holesOffset, SEEK_SET);
+                fread(holes, fheader.holesSize, 1, mapFile);
+            }
 
             int count = meshData.solidVerts.size() / 3;
             float xoffset = (float(tileX)-32)*GRID_SIZE;
@@ -379,8 +382,8 @@ namespace MMAP
                 }
 
                 // if there is a hole here, don't use the terrain
-                /*if (useTerrain)
-                    useTerrain = !isHole(i, holes);*/
+                if (useTerrain && fheader.holesSize != 0)
+                    useTerrain = !isHole(i, holes);
 
                 // we use only one terrain kind per quad - pick higher one
                 if (useTerrain && useLiquid)
